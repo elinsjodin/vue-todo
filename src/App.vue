@@ -14,12 +14,14 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
 import Loader from "./components/Loader.vue";
+import CreateTodo from "./components/CreateTodo.vue";
 import ShowTodoList from "./components/ShowTodoList.vue";
 
 @Options({
   components: {
-    ShowTodoList,
     Loader,
+    CreateTodo,
+    ShowTodoList,
   },
 })
 export default class App extends Vue {
@@ -37,7 +39,6 @@ export default class App extends Vue {
 // body {
 //   display: flex;
 //   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
+//   justify-self: center;
 // }
 </style>
