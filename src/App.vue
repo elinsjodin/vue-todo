@@ -7,7 +7,14 @@
     diamond="diamond"
   ></Loader>
   <div v-else>
-    <ShowTodoList></ShowTodoList>
+    <ShowTodoList
+      mainContainer="main-container"
+      todoListContainer="todo-list-container"
+      navContainer="nav-container"
+      lines="lines"
+      diamond="diamond"
+      listContainer="list-container"
+    ></ShowTodoList>
   </div>
 </template>
 
@@ -36,9 +43,14 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-// body {
-//   display: flex;
-//   flex-direction: column;
-//   justify-self: center;
-// }
+body {
+  height: 100vh;
+  background-image: linear-gradient(300deg, rgb(84, 134, 84), mintcream);
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 </style>
