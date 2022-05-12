@@ -13,6 +13,7 @@
         />
         <CreateTodo
           @createTodo="handleCreateTodo($event)"
+          @editTodo="handleEditTodo($event)"
           inputGroup="input-group"
           newTodoInput="todo-input"
           label="label"
@@ -21,11 +22,14 @@
       </div>
       <div :class="listContainer">
         <ShowTodo
-          v-for="(t, i) in todos"
+          v-for="t in todos"
           :todo="t"
-          :key="i"
-          @deleteTodo="handleDeleteTodo($event)"
+          :key="t.id"
+          :task="t.task"
+          :done="t.done"
+          :id="t.id"
           @markAsDone="handleMarkAsDone($event)"
+          @deleteTodo="handleDeleteTodo($event)"
           taskTitleDone="task-title-done"
           taskDone="task-done"
           liButtonsContainer="li-btns-container"
@@ -53,6 +57,7 @@ const LOCAL_STORAGE_LIST_KEY = "todos";
     CreateTodo,
     SortTodos,
   },
+  // computed: {},
 })
 export default class ShowTodoList extends Vue {
   @Prop() mainContainer!: string;
@@ -63,6 +68,7 @@ export default class ShowTodoList extends Vue {
   @Prop() listContainer!: string;
 
   todos: Todo[] = [];
+
   // showAllTodos: boolean = false;
   // showCompletedTodos: boolean = false;
   // showUncompletedTodos: boolean = false;
@@ -127,31 +133,32 @@ export default class ShowTodoList extends Vue {
     this.saveToLocalStorage();
   }
 
-  handleRenderCompletedTasks() {
-    // let completedTasks = [];
-    // for (let i = 0; i < this.todos.length; i++) {
-    //   let completed = this.todos[i].done;
-    //   if (completed === true) {
-    //     completedTasks.push(this.todos[i]);
-    //     console.log(completedTasks);
-    //   }
-    // }
-    // this.saveToLocalStorage();
-    // return completedTasks;
-  }
+  // handleRenderCompletedTasks() {
+  //   this.todos.filter((t: Todo) => t.done);
+  //   let completedTasks = [];
+  //   for (let i = 0; i < this.todos.length; i++) {
+  //     let completed = this.todos[i].done;
+  //     if (completed === true) {
+  //       completedTasks.push(this.todos[i]);
+  //       console.log(completedTasks);
+  //     }
+  //   }
+  //   this.saveToLocalStorage();
+  //   return completedTasks;
+  // }
 
-  handleRenderUncompletedTasks() {
-    let unCompletedTasks = [];
-    for (let i = 0; i < this.todos.length; i++) {
-      let unCompleted = this.todos[i].done;
-      if (unCompleted === false) {
-        unCompletedTasks.push(this.todos[i]);
-      }
-    }
+  // handleRenderUncompletedTasks() {
+  //   let unCompletedTasks = [];
+  //   for (let i = 0; i < this.todos.length; i++) {
+  //     let unCompleted = this.todos[i].done;
+  //     if (unCompleted === false) {
+  //       unCompletedTasks.push(this.todos[i]);
+  //     }
+  //   }
 
-    this.saveToLocalStorage();
-    return unCompletedTasks;
-  }
+  //   this.saveToLocalStorage();
+  //   return unCompletedTasks;
+  // }
 
   saveToLocalStorage() {
     localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(this.todos));
@@ -160,12 +167,21 @@ export default class ShowTodoList extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mixins";
+
 .main-container {
   height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  // flex-wrap: wrap;
+  // // flex-shrink: 0;
+  // overflow-x: hidden;
+  // overflow-y: scroll;
+  // @include desktop {
+  //   height: 500px;
+  // }
   .todo-list-container {
     background-color: snow;
     min-height: 73%;
@@ -175,15 +191,19 @@ export default class ShowTodoList extends Vue {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 30px;
+    padding: 0 15px 20px 15px;
     box-shadow: 5px 5px 50px rgb(119, 143, 119);
-
+    @include tablet {
+      padding: 0 20px 30px 20px;
+    }
     .lines {
       width: 100%;
-      height: 7px;
+      height: 7.6px;
       position: relative;
+      @include tablet {
+        height: 7.2px;
+      }
     }
-
     .lines::after,
     .lines::before {
       content: "";
@@ -191,25 +211,30 @@ export default class ShowTodoList extends Vue {
       margin: auto;
       height: 2px;
       background-color: rgb(199, 134, 134);
-      width: 45%;
+      width: 44%;
       top: -230%;
+      @include tablet {
+        width: 45%;
+      }
     }
-
     .lines::after {
       left: 0;
     }
     .lines::before {
       right: 0;
     }
-
     .diamond {
-      height: 14px;
-      width: 14px;
+      height: 12px;
+      width: 12px;
       border: 2px solid rgb(180, 167, 93);
       margin: auto;
       transform: rotate(45deg);
       position: relative;
       top: -25px;
+      @include tablet {
+        height: 14px;
+        width: 14px;
+      }
     }
 
     .lines-2 {
@@ -237,15 +262,20 @@ export default class ShowTodoList extends Vue {
     }
 
     h2 {
-      font-size: 2.5em;
+      font-size: 2.3em;
       text-decoration: none;
       color: rgb(26, 60, 26);
+      @include tablet {
+        font-size: 2.5em;
+      }
     }
     .nav-container {
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
-      gap: 5px;
+      @include tablet {
+        gap: 5px;
+      }
     }
   }
 }

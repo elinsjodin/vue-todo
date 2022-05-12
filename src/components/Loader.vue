@@ -21,6 +21,7 @@ export default class Loader extends Vue {
 
 <style lang="scss" scoped>
 @import "@/styles/mixins";
+
 .loading-wrapper {
   min-width: 400px;
   max-width: 400px;
@@ -30,11 +31,12 @@ export default class Loader extends Vue {
     justify-content: center;
     align-items: center;
     .lines {
-      min-width: 100%;
-      height: 10px;
+      min-width: 65%;
+      height: 7px;
       position: relative;
       @include tablet {
         min-width: 110%;
+        height: 10px;
       }
     }
     .lines::after,
@@ -42,13 +44,17 @@ export default class Loader extends Vue {
       content: "";
       position: absolute;
       margin: auto;
-      height: 1.8px;
+      height: 1.9px;
       background-color: rgb(199, 134, 134);
-      width: 45%;
+      width: 43%;
       top: 195%;
       animation: line 1s ease-in;
       @include tablet {
         height: 2px;
+        width: 45.5%;
+      }
+      @include desktop {
+        width: 45%;
       }
     }
     .lines::after {
@@ -58,14 +64,14 @@ export default class Loader extends Vue {
       right: 0;
     }
     .diamond {
-      height: 30px;
-      width: 30px;
+      height: 13px;
+      width: 13px;
       border: 2px solid rgb(180, 167, 93);
       margin: auto;
       transform: rotate(45deg);
       @include tablet {
-        height: 6px;
-        width: 6px;
+        height: 16px;
+        width: 16px;
       }
       @include desktop {
         height: 20px;

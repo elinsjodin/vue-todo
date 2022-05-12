@@ -30,16 +30,29 @@ export default class CreateTodo extends Vue {
   @Prop() label!: string;
   @Prop() inputGroup!: string;
 
+  todos: Todo[] = [];
+
   newTodo = "";
 
   addNewTodo() {
     this.$emit("createTodo", new Todo(this.newTodo, false));
     this.newTodo = "";
   }
+  //   getNewId = (todos: Todo) => {
+  //   let maxId = 0;
+  //   for (const item of this.todos) {
+  //     if (item.id > maxId) {
+  //       maxId = item.id;
+  //     }
+  //   }
+  //   return maxId + 1;
+  // };
 }
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mixins";
+
 form {
   display: flex;
   align-items: center;
@@ -47,17 +60,24 @@ form {
 }
 
 .input-group {
-  width: 200px;
+  width: 180px;
   position: relative;
+  @include tablet {
+    width: 210px;
+  }
 }
 
 .todo-input {
-  width: 50%;
+  width: 87%;
   padding: 5px 0;
   border: none;
   border-bottom: 1px solid rgb(26, 60, 26);
   outline: none;
-  min-width: 200px;
+  margin-left: 20px;
+  @include tablet {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .todo-input:focus {
@@ -67,10 +87,13 @@ form {
 .label {
   color: rgb(26, 60, 26);
   position: absolute;
-  left: 1px;
+  left: 20px;
   top: 3;
   pointer-events: none;
   transition: all 0.2s ease;
+  @include tablet {
+    left: 1px;
+  }
 }
 
 .todo-input:focus + .label,
@@ -85,6 +108,10 @@ form {
   border: none;
   padding: 5px;
   border-radius: 4px;
+  font-size: 0.7em;
   cursor: pointer;
+  @include tablet {
+    font-size: 0.9em;
+  }
 }
 </style>

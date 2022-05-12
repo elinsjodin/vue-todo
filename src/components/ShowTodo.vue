@@ -10,6 +10,7 @@
           ><button :class="liButtonsDone" @click="markAsDone">X</button></span
         >
         <button :class="liButtonsDone" @click="deleteTodo">Delete</button>
+        <!-- <button :class="liButtonsDone" @click="editTodo">Edit</button> -->
       </div>
     </li>
     <li v-else>
@@ -22,6 +23,7 @@
           ><button :class="liButtons" @click="markAsDone">X</button></span
         >
         <button :class="liButtons" @click="deleteTodo">Delete</button>
+        <!-- <button :class="liButtons" @click="editTodo">Edit</button> -->
       </div>
     </li>
   </ul>
@@ -48,6 +50,8 @@ export default class ShowTodo extends Vue {
 
   todos: Todo[] = [];
 
+  editedTodo = null;
+
   deleteTodo() {
     this.$emit("deleteTodo", this.todo);
   }
@@ -55,32 +59,55 @@ export default class ShowTodo extends Vue {
   markAsDone() {
     this.$emit("markAsDone", this.todo);
   }
+
+  editTodo() {
+    this.$emit("editTodo", this.todo);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mixins";
+
 ul {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding-inline-start: 0;
-  min-width: 300px;
+  min-width: 230px;
+  @include desktop {
+    min-width: 300px;
+  }
+  .task-done {
+    background-image: linear-gradient(300deg, rgb(194, 146, 146), snow);
+    opacity: 0.6;
+    @include tablet {
+      font-size: 1.2em;
+      min-width: 93%;
+      max-width: 93%;
+    }
+  }
   li {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    gap: 7px;
     flex-wrap: wrap;
-    min-width: 90%;
-    max-width: 90%;
+    min-width: 95%;
+    max-width: 95%;
     flex-basis: 100%;
     flex: 1;
     background-image: linear-gradient(300deg, rgb(84, 134, 84), mintcream);
     list-style: none;
     border-radius: 5px;
-    font-size: 1.2em;
+    font-size: 1em;
+    @include tablet {
+      font-size: 1.2em;
+      min-width: 93%;
+      max-width: 93%;
+    }
+
     h3,
     .task-title-done {
       font-size: 1.2em;
@@ -88,11 +115,9 @@ ul {
       color: rgb(26, 60, 26);
       width: 60%;
     }
-
     .task-title-done {
       text-decoration: 0.8px line-through rgb(26, 60, 26);
     }
-
     .li-btns-container {
       display: flex;
       justify-content: flex-end;
@@ -112,9 +137,5 @@ ul {
       }
     }
   }
-}
-
-.task-done {
-  background-image: linear-gradient(300deg, rgb(194, 146, 146), snow);
 }
 </style>

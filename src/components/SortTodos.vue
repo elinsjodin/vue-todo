@@ -37,12 +37,18 @@ export default class SortTodos extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mixins";
+
 .sort-btn-container {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 5px;
-  margin-bottom: 20px;
+  gap: 3px;
+  margin-bottom: 18px;
+  @include tablet {
+    gap: 5px;
+    margin-bottom: 20px;
+  }
 }
 .sort {
   background-color: rgb(201, 222, 201);
@@ -51,5 +57,8 @@ export default class SortTodos extends Vue {
   padding: 5px;
   border-radius: 4px;
   cursor: pointer;
+  @include tablet {
+    font-size: 0.9em;
+  }
 }
 </style>
