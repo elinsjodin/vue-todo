@@ -34,19 +34,16 @@ export default class CreateTodo extends Vue {
 
   newTodo = "";
 
+  editedTodo = null;
+
   addNewTodo() {
     this.$emit("createTodo", new Todo(this.newTodo, false));
     this.newTodo = "";
   }
-  //   getNewId = (todos: Todo) => {
-  //   let maxId = 0;
-  //   for (const item of this.todos) {
-  //     if (item.id > maxId) {
-  //       maxId = item.id;
-  //     }
-  //   }
-  //   return maxId + 1;
-  // };
+
+  editTodo(id: string) {
+    this.$emit("editTodo", id);
+  }
 }
 </script>
 

@@ -31,7 +31,6 @@
           @markAsDone="handleMarkAsDone($event)"
           @deleteTodo="handleDeleteTodo($event)"
           taskTitleDone="task-title-done"
-          taskDone="task-done"
           liButtonsContainer="li-btns-container"
           liButtons="li-btns"
           liButtonsDone="li-btns-done"
@@ -73,14 +72,28 @@ export default class ShowTodoList extends Vue {
   // showCompletedTodos: boolean = false;
   // showUncompletedTodos: boolean = false;
 
-  // computed() {
-  //   return this.todos.filter(({ done }) => done || !done);
-  // }
-
   created() {
     this.todos = JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_LIST_KEY) || "[]"
     );
+  }
+
+  computed() {
+    return this.todos.filter(({ done }) => done);
+  }
+
+  handleRenderCompletedTasks() {
+    this.todos.filter((t: Todo) => t.done);
+    let completedTasks = [];
+    for (let i = 0; i < this.todos.length; i++) {
+      let completed = this.todos[i].done;
+      if (completed === true) {
+        completedTasks.push(this.todos[i]);
+        console.log(completedTasks);
+      }
+    }
+    this.saveToLocalStorage();
+    return completedTasks;
   }
 
   handleCreateTodo(task: Todo) {
@@ -88,6 +101,11 @@ export default class ShowTodoList extends Vue {
 
     this.saveToLocalStorage();
   }
+
+  // handleEditTodo(id: string){
+  //   editedTodo.id = this.todos[index];
+
+  // }
 
   handleDeleteTodo(todo: Todo) {
     this.todos.splice(this.todos.indexOf(todo), 1);
@@ -132,20 +150,6 @@ export default class ShowTodoList extends Vue {
 
     this.saveToLocalStorage();
   }
-
-  // handleRenderCompletedTasks() {
-  //   this.todos.filter((t: Todo) => t.done);
-  //   let completedTasks = [];
-  //   for (let i = 0; i < this.todos.length; i++) {
-  //     let completed = this.todos[i].done;
-  //     if (completed === true) {
-  //       completedTasks.push(this.todos[i]);
-  //       console.log(completedTasks);
-  //     }
-  //   }
-  //   this.saveToLocalStorage();
-  //   return completedTasks;
-  // }
 
   // handleRenderUncompletedTasks() {
   //   let unCompletedTasks = [];
