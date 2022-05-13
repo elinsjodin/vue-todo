@@ -10,7 +10,7 @@
           ><button :class="liButtons" @click="markAsDone">X</button></span
         >
         <button :class="liButtons" @click="deleteTodo">Delete</button>
-        <!-- <button :class="liButtonsDone" @click="editTodo">Edit</button> -->
+        <button :class="liButtons" @click="editTodo">Edit</button>
       </div>
     </li>
   </ul>

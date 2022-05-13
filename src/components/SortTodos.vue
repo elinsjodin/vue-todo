@@ -42,7 +42,8 @@ export default class SortTodos extends Vue {
 .sort-btn-container {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  width: 100%;
   gap: 3px;
   margin-bottom: 18px;
   @include tablet {
@@ -59,6 +60,7 @@ export default class SortTodos extends Vue {
   cursor: pointer;
   @include tablet {
     font-size: 0.9em;
+    min-width: 50px;
   }
 }
 </style>

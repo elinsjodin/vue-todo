@@ -43,6 +43,9 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+* {
+  font-family: serif;
+}
 body {
   height: 100vh;
   background-image: linear-gradient(300deg, rgb(84, 134, 84), mintcream);
@@ -52,5 +55,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: serif;
 }
 </style>
