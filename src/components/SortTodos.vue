@@ -2,8 +2,6 @@
   <div :class="sortBtnContainer">
     <button :class="sort" @click="sortTodosByName">Title</button>
     <button :class="sort" @click="sortTodosByStatus">Status</button>
-    <button :class="sort" @click="renderCompletedTasks">Completed</button>
-    <button :class="sort" @click="renderUncompletedTasks">Uncompleted</button>
   </div>
 </template>
 
@@ -24,14 +22,6 @@ export default class SortTodos extends Vue {
 
   sortTodosByStatus() {
     this.$emit("sortTodosByStatus", this.todos);
-  }
-
-  renderCompletedTasks() {
-    this.$emit("renderCompletedTasks", this.todos);
-  }
-
-  renderUncompletedTasks() {
-    this.$emit("renderUncompletedTasks", this.todos);
   }
 }
 </script>
@@ -58,9 +48,10 @@ export default class SortTodos extends Vue {
   padding: 5px;
   border-radius: 4px;
   cursor: pointer;
+  min-width: 40px;
   @include tablet {
     font-size: 0.9em;
-    min-width: 50px;
+    min-width: 70px;
   }
 }
 </style>

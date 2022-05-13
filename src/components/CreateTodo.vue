@@ -10,6 +10,14 @@
       <span :class="label">New Todo</span>
     </div>
     <button
+      v-if="editedTodo.task.length > 0"
+      :class="addTodoButton"
+      @click.prevent="handleEditTodo"
+    >
+      Edit Task
+    </button>
+    <button
+      v-else
       :class="addTodoButton"
       @click.prevent="addNewTodo"
       :disabled="!newTodo"
@@ -20,29 +28,53 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component";
 import { Todo } from "@/models/Todo";
 import { Prop } from "vue-property-decorator";
+import { IEditTodo } from "@/models/IEditTodo";
 
+@Options({
+  watch: {
+    editedTodo: function () {
+      console.log("Edit in Create", this.editedTodo);
+
+      if (this.editedTodo) this.newTodo = this.editedTodo.task;
+    },
+  },
+})
 export default class CreateTodo extends Vue {
   @Prop() newTodoInput!: string;
   @Prop() addTodoButton!: string;
   @Prop() label!: string;
   @Prop() inputGroup!: string;
+  @Prop() editedTodo!: Todo | undefined;
+  @Prop() editedIndex!: number;
 
   todos: Todo[] = [];
 
   newTodo = "";
 
-  editedTodo = null;
+  mounted() {
+    if (this.editedTodo && this.editedTodo.id > 0) {
+      console.log("Edit in Create", this.editedTodo);
+
+      this.newTodo = this.editedTodo.task;
+    }
+  }
 
   addNewTodo() {
     this.$emit("createTodo", new Todo(this.newTodo, false));
+
     this.newTodo = "";
   }
 
-  editTodo(id: string) {
-    this.$emit("editTodo", id);
+  handleEditTodo() {
+    let updatedTask: IEditTodo = {
+      index: this.editedIndex,
+      text: this.newTodo,
+    };
+    this.$emit("handleEditTodo", updatedTask);
+    this.newTodo = "";
   }
 }
 </script>
@@ -55,7 +87,6 @@ form {
   align-items: center;
   flex-direction: row;
 }
-
 .input-group {
   width: 180px;
   position: relative;
@@ -63,7 +94,6 @@ form {
     width: 210px;
   }
 }
-
 .todo-input {
   width: 87%;
   padding: 5px 0;
@@ -76,11 +106,9 @@ form {
     margin-left: 0;
   }
 }
-
 .todo-input:focus {
   outline: none;
 }
-
 .label {
   color: rgb(26, 60, 26);
   position: absolute;
@@ -92,13 +120,11 @@ form {
     left: 1px;
   }
 }
-
 .todo-input:focus + .label,
 .todo-input:not(:placeholder-shown) + .label {
   top: -10px;
   font-size: 12px;
 }
-
 .add-todo-btn {
   background-color: rgb(204, 196, 152);
   color: rgb(16, 36, 16);

@@ -7,33 +7,33 @@
         <SortTodos
           @sortTodosByName="handleSortTodosByName($event)"
           @sortTodosByStatus="handleSortTodosByStatus($event)"
-          @renderCompletedTasks="handleRenderCompletedTasks($event)"
           sortBtnContainer="sort-btn-container"
           sort="sort"
         />
         <CreateTodo
           @createTodo="handleCreateTodo($event)"
-          @editTodo="handleEditTodo($event)"
+          @handleEditTodo="handleUpdatedTodo($event)"
           inputGroup="input-group"
           newTodoInput="todo-input"
           label="label"
           addTodoButton="add-todo-btn"
+          :editedTodo="edit"
+          :editedIndex="index"
         />
       </div>
       <div :class="listContainer">
         <ShowTodo
-          v-for="t in todos"
+          v-for="(t, i) in todos"
           :todo="t"
           :key="t.id"
           :task="t.task"
           :done="t.done"
-          :id="t.id"
+          :index="i"
+          @editTodo="handleEditTodo($event)"
           @markAsDone="handleMarkAsDone($event)"
           @deleteTodo="handleDeleteTodo($event)"
-          taskTitleDone="task-title-done"
           liButtonsContainer="li-btns-container"
           liButtons="li-btns"
-          liButtonsDone="li-btns-done"
         />
       </div>
     </div>
@@ -41,6 +41,7 @@
 </template>
 
 <script lang="ts">
+import { IEditTodo } from "@/models/IEditTodo";
 import { Todo } from "@/models/Todo";
 import { Options, Vue } from "vue-class-component";
 import { Prop } from "vue-property-decorator";
@@ -56,7 +57,6 @@ const LOCAL_STORAGE_LIST_KEY = "todos";
     CreateTodo,
     SortTodos,
   },
-  // computed: {},
 })
 export default class ShowTodoList extends Vue {
   @Prop() mainContainer!: string;
@@ -65,12 +65,13 @@ export default class ShowTodoList extends Vue {
   @Prop() lines!: string;
   @Prop() diamond!: string;
   @Prop() listContainer!: string;
+  edit: Todo = { id: 0, done: false, task: "" };
+
+  index = -1;
 
   todos: Todo[] = [];
 
-  // showAllTodos: boolean = false;
-  // showCompletedTodos: boolean = false;
-  // showUncompletedTodos: boolean = false;
+  theEdit: IEditTodo = { index: 0, text: "" };
 
   created() {
     this.todos = JSON.parse(
@@ -82,30 +83,31 @@ export default class ShowTodoList extends Vue {
     return this.todos.filter(({ done }) => done);
   }
 
-  handleRenderCompletedTasks() {
-    this.todos.filter((t: Todo) => t.done);
-    let completedTasks = [];
-    for (let i = 0; i < this.todos.length; i++) {
-      let completed = this.todos[i].done;
-      if (completed === true) {
-        completedTasks.push(this.todos[i]);
-        console.log(completedTasks);
-      }
-    }
-    this.saveToLocalStorage();
-    return completedTasks;
-  }
-
   handleCreateTodo(task: Todo) {
     this.todos.push(task);
 
     this.saveToLocalStorage();
   }
 
-  // handleEditTodo(id: string){
-  //   editedTodo.id = this.todos[index];
+  handleEditTodo(id: number) {
+    this.edit = this.todos[id];
+    this.index = id;
+    console.log("Edit in ShowList", this.edit);
 
-  // }
+    this.saveToLocalStorage();
+  }
+
+  handleUpdatedTodo(theEdit: IEditTodo) {
+    console.log(theEdit);
+
+    this.todos[theEdit.index].task = theEdit.text;
+
+    console.log("Successfully edited task", this.todos[theEdit.index]);
+
+    this.saveToLocalStorage();
+
+    this.edit = { id: 0, task: "", done: false };
+  }
 
   handleDeleteTodo(todo: Todo) {
     this.todos.splice(this.todos.indexOf(todo), 1);
@@ -151,19 +153,6 @@ export default class ShowTodoList extends Vue {
     this.saveToLocalStorage();
   }
 
-  // handleRenderUncompletedTasks() {
-  //   let unCompletedTasks = [];
-  //   for (let i = 0; i < this.todos.length; i++) {
-  //     let unCompleted = this.todos[i].done;
-  //     if (unCompleted === false) {
-  //       unCompletedTasks.push(this.todos[i]);
-  //     }
-  //   }
-
-  //   this.saveToLocalStorage();
-  //   return unCompletedTasks;
-  // }
-
   saveToLocalStorage() {
     localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(this.todos));
   }
@@ -179,13 +168,6 @@ export default class ShowTodoList extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
-  // flex-wrap: wrap;
-  // // flex-shrink: 0;
-  // overflow-x: hidden;
-  // overflow-y: scroll;
-  // @include desktop {
-  //   height: 500px;
-  // }
   .todo-list-container {
     background-color: snow;
     min-height: 73%;
@@ -240,13 +222,11 @@ export default class ShowTodoList extends Vue {
         width: 14px;
       }
     }
-
     .lines-2 {
       width: 70%;
       height: 7px;
       position: relative;
     }
-
     .lines-2::after,
     .lines-2::before {
       content: "";
@@ -257,14 +237,12 @@ export default class ShowTodoList extends Vue {
       width: 48%;
       top: -230%;
     }
-
     .lines-2::after {
       left: 0;
     }
     .lines-2::before {
       right: 0;
     }
-
     h2 {
       font-size: 2.3em;
       text-decoration: none;

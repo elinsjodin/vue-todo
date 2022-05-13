@@ -10,7 +10,7 @@
           ><button :class="liButtons" @click="markAsDone">X</button></span
         >
         <button :class="liButtons" @click="deleteTodo">Delete</button>
-        <button :class="liButtons" @click="editTodo">Edit</button>
+        <button :class="liButtons" @click="editTodo(index)">Edit</button>
       </div>
     </li>
   </ul>
@@ -31,8 +31,7 @@ export default class ShowTodo extends Vue {
   @Prop() todo!: Todo;
   @Prop() liButtonsContainer!: string;
   @Prop() liButtons!: string;
-  @Prop() liButtonsDone!: string;
-  @Prop() taskTitleDone!: string;
+  @Prop() index!: number;
 
   todos: Todo[] = [];
 
@@ -44,8 +43,8 @@ export default class ShowTodo extends Vue {
     this.$emit("markAsDone", this.todo);
   }
 
-  editTodo() {
-    this.$emit("editTodo", this.todo);
+  editTodo(id: number) {
+    this.$emit("editTodo", id);
   }
 }
 </script>
