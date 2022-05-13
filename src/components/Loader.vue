@@ -25,11 +25,15 @@ export default class Loader extends Vue {
 .loading-wrapper {
   min-width: 400px;
   max-width: 400px;
+  height: 100vh;
+  display: flex;
+  align-items: center;
   .loading-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
     .lines {
       min-width: 65%;
       height: 7px;

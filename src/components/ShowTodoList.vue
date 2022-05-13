@@ -122,7 +122,7 @@ export default class ShowTodoList extends Vue {
   }
 
   handleSortTodosByName() {
-    this.todos = this.todos.sort(function (a, b) {
+    this.todos = this.todos.sort(function (a: Todo, b: Todo) {
       let x = a.task.toLowerCase();
       let y = b.task.toLowerCase();
       if (x < y) {
@@ -138,7 +138,7 @@ export default class ShowTodoList extends Vue {
   }
 
   handleSortTodosByStatus() {
-    this.todos = this.todos.sort(function (a, b) {
+    this.todos = this.todos.sort(function (a: Todo, b: Todo) {
       let x = a.done;
       let y = b.done;
       if (x < y) {
@@ -178,8 +178,10 @@ export default class ShowTodoList extends Vue {
     justify-content: center;
     align-items: center;
     padding: 0 15px 20px 15px;
+    margin: 15px 0 15px 0;
     box-shadow: 5px 5px 50px rgb(119, 143, 119);
     @include tablet {
+      margin: 30px 0 30px 0;
       padding: 0 20px 30px 20px;
     }
     .lines {

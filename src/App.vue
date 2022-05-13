@@ -47,8 +47,9 @@ export default class App extends Vue {
   font-family: serif;
 }
 body {
-  height: 100vh;
+  min-height: 100vh;
   background-image: linear-gradient(300deg, rgb(84, 134, 84), mintcream);
+  background-repeat: no-repeat;
   margin: 0px;
   padding: 0px;
   display: flex;
