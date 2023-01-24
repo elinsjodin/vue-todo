@@ -121,7 +121,7 @@ export default class ShowTodoList extends Vue {
     this.saveToLocalStorage();
   }
 
-  handleSortTodosByName() {
+  handleSortTodosByName(task: Todo) {
     this.todos = this.todos.sort(function (a: Todo, b: Todo) {
       let x = a.task.toLowerCase();
       let y = b.task.toLowerCase();
@@ -137,7 +137,7 @@ export default class ShowTodoList extends Vue {
     this.saveToLocalStorage();
   }
 
-  handleSortTodosByStatus() {
+  handleSortTodosByStatus(task: Todo) {
     this.todos = this.todos.sort(function (a: Todo, b: Todo) {
       let x = a.done;
       let y = b.done;

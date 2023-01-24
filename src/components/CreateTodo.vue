@@ -10,7 +10,7 @@
       <span :class="label">New Todo</span>
     </div>
     <button
-      v-if="editedTodo.task.length > 0"
+      v-if="editedTodo!.task.length > 0"
       :class="addTodoButton"
       @click.prevent="handleEditTodo"
     >

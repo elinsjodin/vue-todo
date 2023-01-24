@@ -4,10 +4,12 @@
       <h3>{{ todo.task }}</h3>
       <div :class="liButtonsContainer">
         <span v-if="todo.done">
-          <button :class="liButtons" @click="markAsDone">&#10003;</button>
+          <button :class="liButtons" @click="markAsDone">X</button>
         </span>
         <span v-else
-          ><button :class="liButtons" @click="markAsDone">X</button></span
+          ><button :class="liButtons" @click="markAsDone">
+            &#10003;
+          </button></span
         >
         <button :class="liButtons" @click="deleteTodo">Delete</button>
         <button :class="liButtons" @click="editTodo(index)">Edit</button>
